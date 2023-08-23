@@ -1,0 +1,36 @@
+﻿@page
+@model IndexModel
+@inject Services.IVerficationService service
+@inject Services.IErrorService errors
+
+@{
+    ViewData["Title"] = "EIK Check Page";
+}
+
+
+<div class="text-center">
+    <h1>Downloader by EIK</h1>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Please enter the EIK number in the input box below. The value must be digits with a length of 9. Anything else will be deemed invalid!</div>
+            <br />
+            <div class="panel-body">
+            <form method="POST" name="form1" asp-action="Index">            
+                <input type="number" id="eik_value" maxlength="9" class="form-control" asp-for="EIKValue" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />  <br />
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form> 
+            <br /> 
+        </div>
+    </div>
+   
+    @if(service.statusCode != 0)
+    {
+        <div class="alert alert-danger" role="alert" id="error_result">
+            @errors.ReturnError(service.statusCode)
+        </div>        
+    }
+   
+    
+</div>
+
+
